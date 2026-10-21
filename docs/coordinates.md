@@ -18,6 +18,10 @@ Input: a grayscale image (files are converted with PIL `convert("L")`; arrays ar
 | `image_log_slope` | median of \|∇I\| / I on Canny edge pixels (Sobel 3×3), clipped to 10 | edge sharpness relative to local intensity | 0…10 |
 | `edge_roughness` | std of contour points' deviation from a moving-average contour (window = len/10), / image diagonal | stochastic edge roughness | ≥ 0 |
 
+## When `dominant_orientation` means nothing
+
+It's the angle of a gradient-weighted vector. When no orientation dominates, as with rotationally symmetric patterns (a centered blob, an edge ring), that vector is close to zero and its angle is numerical noise: it can differ between machines. Check `inspection_coordinates.orientation_strength(image)` (0…1): below about 0.001, ignore the angle. Scratches and line patterns give strong, stable readings.
+
 ## Relation to lithography metrics
 
 - **`image_log_slope` is NILS-like, not NILS.** NILS is the image log-slope at the feature edge *multiplied by the feature width* (CD). Here it's per pixel and not normalized by CD, so compare it within one magnification and pattern, or multiply by your CD in pixels.

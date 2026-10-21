@@ -22,8 +22,12 @@ REL, ABS = (1e-9, 1e-12) if REFERENCE else (1e-6, 1e-9)
 
 @pytest.mark.parametrize("name", sorted(GOLDEN))
 def test_matches_original(name):
-    got = ic.measure_raw(ROOT / "examples" / "images" / name)
+    path = ROOT / "examples" / "images" / name
+    got = ic.measure_raw(path)
+    weak = ic.orientation_strength(path) < 1e-3  # orientation undefined: angle is numerical noise
     for k, v in GOLDEN[name].items():
+        if k == "theta" and weak and not REFERENCE:
+            continue
         assert math.isclose(got[k], v, rel_tol=REL, abs_tol=ABS), f"{name}: {k} {got[k]} != {v}"
 
 

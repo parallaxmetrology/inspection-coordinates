@@ -12,6 +12,7 @@ import os
 from pathlib import Path
 from typing import Dict, Iterable, List, Tuple, Union
 
+import cv2
 import numpy as np
 import pandas as pd
 from PIL import Image
@@ -63,6 +64,23 @@ def measure(image: ImageLike) -> Dict[str, float]:
 def measure_raw(image: ImageLike) -> Dict[str, float]:
     """The same coordinates under the research names (delta_x, r_v, nils…)."""
     return _v31.extract(load_gray(image))
+
+
+def orientation_strength(image: ImageLike) -> float:
+    """How strongly one orientation dominates, 0…1 (length of the gradient-weighted
+    doubled-angle vector behind `dominant_orientation`). Near 0, e.g. for
+    rotationally symmetric patterns, `dominant_orientation` is undefined and its
+    value is numerical noise. Not one of the fifteen frozen coordinates."""
+    img = load_gray(image).astype(np.float64)
+    if img.ndim == 3:
+        img = img.mean(axis=2)
+    img = (img - img.min()) / (img.max() - img.min() + 1e-9)
+    gx = cv2.Sobel(img, cv2.CV_64F, 1, 0, ksize=3)
+    gy = cv2.Sobel(img, cv2.CV_64F, 0, 1, ksize=3)
+    mag = np.sqrt(gx ** 2 + gy ** 2)
+    w = mag / (mag.sum() + 1e-9)
+    th = np.arctan2(gy, gx)
+    return float(np.hypot((w * np.sin(2 * th)).sum(), (w * np.cos(2 * th)).sum()))
 
 
 def find_images(*paths: Union[str, os.PathLike]) -> List[Tuple[Path, str]]:

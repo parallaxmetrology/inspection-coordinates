@@ -8,7 +8,8 @@ semiconductor inspection images (SEM, wafer maps, aerial images). No training.
 
 Part of Parallax Metrology: https://www.parallaxmetrology.com
 """
-from .coords import COORDINATES, NAMES, VERSION, measure, measure_many, measure_raw
+from .coords import COORDINATES, NAMES, VERSION, measure, measure_many, measure_raw, orientation_strength
 
 __version__ = "0.1.0"
-__all__ = ["measure", "measure_many", "measure_raw", "COORDINATES", "NAMES", "VERSION", "__version__"]
+__all__ = ["measure", "measure_many", "measure_raw", "orientation_strength",
+           "COORDINATES", "NAMES", "VERSION", "__version__"]
