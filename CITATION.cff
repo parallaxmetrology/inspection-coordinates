@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use Inspection Coordinates in research, please cite it as below."
+title: "Inspection Coordinates: physics-grounded structural coordinates for semiconductor inspection images"
+type: software
+authors:
+  - family-names: Parrish
+    given-names: Russell
+    orcid: https://orcid.org/0009-0008-9781-7995
+version: "0.1.0"
+date-released: 2026-10-21
+license: MIT
+url: https://www.parallaxmetrology.com/semiconductor_pm.html
+repository-code: https://github.com/parallaxmetrology/inspection-coordinates
+keywords: [semiconductor inspection, metrology, SEM, wafer map, defect classification, interpretable features]
+abstract: >
+  Fifteen training-free structural coordinates for inspection images (SEM, wafer
+  maps, aerial images): intensity placement and spread, edge log-slope and
+  roughness, and spectral energy bands. Reproducible benchmarks on the Carinthia
+  SEM and MixedWM38 wafer-map datasets.

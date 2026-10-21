@@ -1,0 +1,47 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "inspection-coordinates"
+version = "0.1.0"
+description = "Fifteen physics-grounded structural coordinates for semiconductor inspection images (SEM, wafer maps, aerial images). No training."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Russell Parrish", email = "russellgparrish@gmail.com" }]
+requires-python = ">=3.9"
+keywords = ["semiconductor", "inspection", "metrology", "SEM", "wafer map", "defect classification", "image features", "lithography"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "Intended Audience :: Manufacturing",
+  "Topic :: Scientific/Engineering :: Image Processing",
+  "Programming Language :: Python :: 3",
+]
+dependencies = ["numpy>=1.23", "opencv-python-headless>=4.8", "pillow>=9.5", "pandas>=1.5"]
+
+[project.optional-dependencies]
+bench = ["scikit-learn>=1.2", "scikit-image>=0.20"]
+dev = ["pytest>=7", "ruff", "scikit-learn>=1.2", "scikit-image>=0.20"]
+
+[project.scripts]
+inspcoords = "inspection_coordinates.cli:main"
+
+[project.urls]
+Homepage = "https://www.parallaxmetrology.com/semiconductor_pm.html"
+Source = "https://github.com/parallaxmetrology/inspection-coordinates"
+Issues = "https://github.com/parallaxmetrology/inspection-coordinates/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/inspection_coordinates"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+extend-exclude = ["src/inspection_coordinates/_v31.py"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W"]
